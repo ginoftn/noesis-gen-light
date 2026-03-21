@@ -106,6 +106,8 @@ Full detail in `USER.ENV/voice-dna.md` (Part 3).
 **Phase 2 (context):** today's daily note + `momentum.md` + today's digest (if available) + `USER.ENV/objectifs/annuel.md` + `trimestriel.md`
 **Phase 3 (on demand):** voice-dna Parts 2-3 (if writing), `gamification/config.md` (if /status), `patterns-recurrents.md` (if diagnosing)
 
+Read `CLAUDE.local.md` after Phase 1 -- it contains hard-won rules that override default behavior.
+
 End with: ask what happened in spaces {{NAME}} can't see.
 
 ### During
@@ -168,7 +170,7 @@ Config: `SHARED.ENV/gamification/config.md`. State: `xp-tracker.md`.
 
 This system accumulates wisdom over time. Rules, corrections, and calibrations discovered during sessions are stored in `CLAUDE.local.md` (next to this file, not versioned).
 
-**Read `CLAUDE.local.md` at every session startup** (after Phase 1). It contains hard-won rules that override default behavior.
+**Read `CLAUDE.local.md` at every session startup** (after Phase 1). It contains rules that override default behavior.
 
 ---
 
