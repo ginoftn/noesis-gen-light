@@ -1,0 +1,31 @@
+{
+  "name": "get-noesisgen",
+  "version": "0.1.0",
+  "description": "NOESIS — Your cognitive operating system. Install a personalized AI-powered second brain via Claude Code.",
+  "type": "module",
+  "bin": {
+    "get-noesisgen": "bin/index.js"
+  },
+  "files": [
+    "bin/",
+    "template/",
+    "assets/"
+  ],
+  "keywords": [
+    "noesis",
+    "claude-code",
+    "cognitive-system",
+    "second-brain",
+    "productivity",
+    "ai-assistant"
+  ],
+  "author": "Gino Fontana",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ginoftn/noesis-gen.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
