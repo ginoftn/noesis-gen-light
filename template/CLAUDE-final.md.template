@@ -74,6 +74,15 @@ Outputs in `AI.ENV/outputs/`. Digest copied to `AI.ENV/outputs/digest-latest.md`
 
 **Rule:** Autonomous sessions do NOT modify USER.ENV. They write to SHARED.ENV and AI.ENV only. Everything they produce is a proposal, not a decision.
 
+## Subagents
+
+The system dispatches specialized subagents for focused tasks:
+
+- **Analyzer** (`subagents/analyzer-CLAUDE.md`) — Used by auto sessions for deep analysis, project connections, momentum updates, and task generation. Read-only vault access.
+- **Voice analyzer** (`subagents/voice-analyzer-CLAUDE.md`) — Launched by `/profile-deep` and during setup. Reads text samples, analyzes writing style, enriches `USER.ENV/voice-dna.md`.
+
+Subagents write to SHARED.ENV and AI.ENV only. They never modify USER.ENV directly (except voice-dna.md via `/profile-deep`).
+
 ## Session workflow
 
 ### On startup (progressive loading)
