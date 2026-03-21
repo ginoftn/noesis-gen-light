@@ -6,7 +6,7 @@
 
 ### Sessions
 
-*(Rempli automatiquement par les sessions interactives et autonomes.)*
+*(Filled automatically by interactive and autonomous sessions.)*
 
 ---
 
@@ -16,19 +16,19 @@
 
 ---
 
-### Idees emergentes
+### Emerging ideas
 
 -
 
 ---
 
-### Etat emotionnel
+### Emotional state
 
 -
 
 ---
 
-### Top 3 pour demain
+### Top 3 for tomorrow
 
 1.
 2.
