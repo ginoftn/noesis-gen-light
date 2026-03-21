@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.noesis.session-auto</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{VAULT_PATH}}/scripts/noesis-session-auto.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>{{SESSION_HOUR}}</integer>
+        <key>Minute</key>
+        <integer>{{SESSION_MINUTE}}</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/session-auto-launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/session-auto-launchd-stderr.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:{{HOME}}/.local/bin</string>
+        <key>HOME</key>
+        <string>{{HOME}}</string>
+    </dict>
+</dict>
+</plist>

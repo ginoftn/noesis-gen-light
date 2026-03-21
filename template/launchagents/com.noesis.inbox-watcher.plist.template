@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.noesis.inbox-watcher</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{VAULT_PATH}}/scripts/noesis-inbox-watcher.sh</string>
+    </array>
+    <key>WatchPaths</key>
+    <array>
+        <string>{{VAULT_PATH}}/vault/SHARED.ENV/captures</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/inbox-watcher-launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/inbox-watcher-launchd-stderr.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:{{HOME}}/.local/bin</string>
+        <key>HOME</key>
+        <string>{{HOME}}</string>
+    </dict>
+</dict>
+</plist>

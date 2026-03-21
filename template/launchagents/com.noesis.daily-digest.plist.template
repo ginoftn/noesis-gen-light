@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.noesis.daily-digest</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{VAULT_PATH}}/scripts/noesis-daily-digest.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>{{DIGEST_HOUR}}</integer>
+        <key>Minute</key>
+        <integer>{{DIGEST_MINUTE}}</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/digest-launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{VAULT_PATH}}/vault/AI.ENV/logs/digest-launchd-stderr.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:{{HOME}}/.local/bin</string>
+        <key>HOME</key>
+        <string>{{HOME}}</string>
+    </dict>
+</dict>
+</plist>
