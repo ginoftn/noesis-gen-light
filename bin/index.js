@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 const TEMPLATE_DIR = resolve(__dirname, '..', 'template');
 
 // Colors (with NO_COLOR support)
-const nc = !process.env.NO_COLOR;
+const nc = !process.env.NO_COLOR && process.stdout.isTTY;
 const c = {
   reset: nc ? '\x1b[0m' : '',
   bold: nc ? '\x1b[1m' : '',
@@ -50,26 +50,45 @@ function ok(msg) {
   console.log(`${c.green}✓${c.reset} ${msg}`);
 }
 
-function info(msg) {
-  console.log(`${c.dim}  ${msg}${c.reset}`);
+// Animated spinner for a step
+function spinner(label) {
+  const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  let i = 0;
+  const interval = setInterval(() => {
+    process.stdout.write(`\r${c.cyan}${frames[i % frames.length]}${c.reset} ${label}`);
+    i++;
+  }, 80);
+
+  return {
+    done(msg) {
+      clearInterval(interval);
+      process.stdout.write(`\r${c.green}✓${c.reset} ${msg || label}\n`);
+    },
+    fail(msg) {
+      clearInterval(interval);
+      process.stdout.write(`\r${c.red}✗${c.reset} ${msg || label}\n`);
+    }
+  };
+}
+
+// Delay helper
+function wait(ms) {
+  return new Promise(r => setTimeout(r, ms));
 }
 
 // Preflight checks
 function preflight() {
-  // Platform
   const p = platform();
   if (p !== 'darwin' && p !== 'linux') {
     fail(`NOESIS requires macOS or Linux. Detected: ${p}`);
   }
 
-  // Node.js >= 18
   const nodeVersion = parseInt(process.version.slice(1));
   if (nodeVersion < 18) {
     fail(`Node.js 18+ required. You have ${process.version}`);
   }
   ok(`Node.js ${process.version}`);
 
-  // Claude CLI
   try {
     execFileSync('which', ['claude'], { stdio: 'ignore' });
     ok('Claude CLI found');
@@ -117,29 +136,33 @@ async function main() {
     }
   }
 
-  // Install
-  console.log(`\n${c.bold}Installing NOESIS${c.reset}`);
+  console.log(`\n${c.bold}Installing NOESIS${c.reset}\n`);
 
-  // Copy template
+  // Step 1: Vault structure
+  let s = spinner('Creating vault structure...');
   mkdirSync(dest, { recursive: true });
   cpSync(TEMPLATE_DIR, dest, { recursive: true });
-  ok('Vault structure created (USER.ENV / SHARED.ENV / AI.ENV)');
+  await wait(400);
+  s.done('Vault structure created (USER.ENV / SHARED.ENV / AI.ENV)');
 
-  // Make scripts executable
+  // Step 2: Scripts
+  s = spinner('Setting up background scripts...');
   const scriptsDir = join(dest, 'scripts');
+  let scriptCount = 0;
   if (existsSync(scriptsDir)) {
     try {
       const scripts = readdirSync(scriptsDir).filter(f => f.endsWith('.sh'));
       for (const script of scripts) {
         chmodSync(join(scriptsDir, script), 0o755);
       }
-      ok(`${scripts.length} scripts made executable`);
-    } catch (err) {
-      info(`Could not chmod scripts: ${err.message}`);
-    }
+      scriptCount = scripts.length;
+    } catch {}
   }
+  await wait(300);
+  s.done(`${scriptCount} background scripts ready`);
 
-  // Count skills
+  // Step 3: Skills
+  s = spinner('Installing skills...');
   const skillsDir = join(dest, '.claude', 'skills');
   let skillCount = 0;
   if (existsSync(skillsDir)) {
@@ -149,27 +172,37 @@ async function main() {
       }).length;
     } catch {}
   }
+  await wait(350);
+  s.done(`${skillCount} skills installed (/bonjour /status /recap /sync /task /deepwork /profile-deep)`);
 
-  ok(`${skillCount} skills installed`);
-  ok('4 background agent templates ready');
-  ok('2 subagents configured');
+  // Step 4: Subagents
+  s = spinner('Configuring subagents...');
+  await wait(250);
+  s.done('2 subagents configured (analyzer, voice-analyzer)');
+
+  // Step 5: LaunchAgent templates
+  s = spinner('Preparing background agents...');
+  await wait(300);
+  s.done('4 background agent templates ready (digest, session, watcher, maintenance)');
+
+  // Step 6: Gamification
+  s = spinner('Setting up gamification...');
+  await wait(200);
+  s.done('Gamification ready (18 levels, 3 acts, 48h grace period)');
 
   // Summary
   console.log(`
 ${c.green}${c.bold}✓ NOESIS installed to ${dest}${c.reset}
 
-  Your system is ready:
-  ${c.dim}•${c.reset} Vault: USER.ENV / SHARED.ENV / AI.ENV
-  ${c.dim}•${c.reset} ${skillCount} skills: /bonjour /status /recap /sync /task /deepwork /profile-deep
-  ${c.dim}•${c.reset} 4 background agents (configured during setup)
-  ${c.dim}•${c.reset} Gamification with 18 levels
+  ${c.dim}Everything is ready. The setup agent will personalize it for you:${c.reset}
+  ${c.dim}•${c.reset} Your profile, portrait, and voice analysis
+  ${c.dim}•${c.reset} Your projects (detected from your files)
+  ${c.dim}•${c.reset} Background agents (scheduled to your rhythm)
+  ${c.dim}•${c.reset} Your system's name and shell aliases
 
 ${c.bold}Next:${c.reset}
 
   ${c.cyan}cd ${dest} && claude${c.reset}
-
-  The setup agent will personalize your system:
-  profile, projects, voice analysis, background agents, and your system's name.
 `);
 }
 

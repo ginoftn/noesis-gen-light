@@ -44,8 +44,10 @@ Scan these directories (structure only, 2 levels deep):
 
 For each zone, note:
 1. Directories at level 1 and 2
-2. Files with extensions: .md, .txt, .swift, .py, .js, .ts, .json, .scrivener
-3. Presence of: .obsidian/, .git/, package.json, PROJECT.md, _forClaude/
+2. Files with ANY extensions — not just .md. Look for .swift, .py, .js, .ts, .json,
+   .txt, .scrivener, .scriv, .docx, .pages, .rtf, and any other file types
+3. Presence of: .obsidian/, .git/, package.json, Cargo.toml, pyproject.toml,
+   Makefile, README.md, any file that signals "this is a project root"
 4. Last modification date of main directories
 5. DO NOT read file contents — names and structure only
 
@@ -54,19 +56,31 @@ Classify each detected project directory:
 - WARM: modified within the last 30 days
 - COLD: more than 30 days
 
+For each HOT or WARM project, also read ONE file if available (in priority order):
+README.md, PROJECT.md, index.md, main description file at root level.
+This gives context for the project description. Read only the first 50 lines.
+
 Return:
 - Total relevant files per zone
 - List of detected projects with thermal classification
+- Brief description for each project (from README or inferred from structure)
 - Dominant extensions (top 5)
-- Detected organization patterns (naming, structure)
+- Detected organization patterns (naming conventions, folder structure)
 - Obsidian presence (yes/no, where)
 ```
 
-Don't mention the scan while the user answers. Use results naturally when they arrive: "I see you have a project X on your Desktop..."
+### CRITICAL: Scan disclosure rules
+
+**NEVER dump scan results on the user unprompted.** The scan runs silently in the background.
+- During Themes 1-2: do NOT mention scan results at all. Focus on the user's answers.
+- During Theme 3 (Projects): introduce scan results ONE project at a time, as questions. "I noticed a folder called X — what is that?" NOT a full list dump.
+- NEVER display raw numbers (file counts, project counts) unless the user asks.
+- NEVER diagnose patterns from the scan before the user has described their own patterns (Theme 4).
+- If the user asks about the scan directly, share results. Otherwise, weave them naturally into conversation.
 
 ### Step 3: Onboarding conversation (5 themes)
 
-Ask naturally, not like a form. Mirror the user's energy — brief if they're brief, detailed if they elaborate.
+Ask naturally, not like a form. Mirror the user's energy — brief if they're brief, detailed if they elaborate. **One theme at a time. Wait for the user's response before moving to the next.**
 
 **Theme 1 — Identity**
 - What's your name?
@@ -80,17 +94,17 @@ Ask naturally, not like a form. Mirror the user's energy — brief if they're br
 - Language preference? (if not already detected)
 
 **Theme 3 — Projects**
-By now, scan results should be available. Use them:
-- "I see [N] projects on your Desktop. [List]. Does that match reality?"
-- Which are active? Which are dormant?
-- Any projects the scan missed?
-- What would you like to finish first?
+This is where scan results become useful. Introduce them gently:
+- Start by asking: "Tell me about your active projects."
+- After the user answers, complement with scan observations: "I also noticed [folder] — is that related?"
+- Let the user organize their own projects into categories. Don't impose your classification.
+- Which are active? Which are dormant? What would they like to finish first?
 
 **Theme 4 — Patterns**
 - What works well in how you work?
 - What gets stuck? What repeats?
 - Do you tend to start many things? Procrastinate? Organize instead of doing?
-- Feed with scan observations: "You have 12 projects, 8 inactive over a month — ring a bell?"
+- Only AFTER the user describes their patterns, you may confirm with scan data: "That matches what I see — [observation]."
 
 **Theme 5 — Expectations**
 - What do you want the system to do for you?
@@ -126,22 +140,22 @@ From conversation + scan, generate all files **in the user's primary language**:
 
 3. **`vault/USER.ENV/voice-dna.md` Part 1** — How the system talks to the user. Fill based on Theme 2 (casual/formal, tone, what works/doesn't).
 
-4. **Project files** in `vault/SHARED.ENV/registres/projets/` — One per project:
+4. **Project files** in `vault/SHARED.ENV/registres/projets/` — One per project. **Use the README/description from the scan to write a real description, not just "project in progress".**
    ```markdown
    # [Project name]
-   - **Type:** (code, writing, publication, other)
+   - **Type:** (code, writing, publication, research, other)
    - **Status:** (active / dormant / archived)
    - **Temperature:** (hot / warm / cold)
-   - **Description:** (1-2 lines)
-   - **Last activity:** (date)
-   - **Next step:** (if known)
+   - **Description:** (2-3 lines — what it IS, from the scan + conversation)
+   - **Last activity:** (date from scan)
+   - **Next step:** (from conversation, or "To discuss" if unknown — never "A définir en session")
    ```
 
-5. **`vault/SHARED.ENV/registres/projets-actifs.md`** — Index generated from project files.
+5. **`vault/SHARED.ENV/registres/projets-actifs.md`** — Index generated from project files. Group by categories the user defined (Theme 3), not by temperature.
 
 6. **`vault/SHARED.ENV/gamification/config.md`** — Adapt XP categories if scan reveals patterns (lots of .swift → "iOS Dev", narrative .md → "Creative Writing"). Keep generic if no clear signal.
 
-7. **First daily note** `vault/SHARED.ENV/daily-notes/YYYY-MM-DD.md` — Note setup, detected projects, decisions made.
+7. **First daily note** `vault/SHARED.ENV/daily-notes/YYYY-MM-DD.md` — Use `date` to get the correct day name. Note setup, detected projects, decisions made.
 
 8. **Setup log** `vault/AI.ENV/logs/setup-YYYY-MM-DD.log` — Phases, files created, projects detected, errors.
 
@@ -167,9 +181,10 @@ The NOESIS system lives in the background through 4 autonomous agents. Configure
 
 **On macOS** (detect via `uname`):
 1. Copy plist templates from `launchagents/` to `~/Library/LaunchAgents/`
-2. Replace variables: `{{VAULT_PATH}}`, `{{DIGEST_HOUR/MINUTE}}`, `{{SESSION_HOUR/MINUTE}}`
-3. Load: `launchctl load ~/Library/LaunchAgents/com.noesis.*.plist`
-4. Verify: `launchctl list | grep noesis`
+2. Replace variables: `{{VAULT_PATH}}`, `{{HOME}}`, `{{DIGEST_HOUR/MINUTE}}`, `{{SESSION_HOUR/MINUTE}}`
+3. **Before loading, check for existing `com.noesis.*` plist files.** If found, ask user: "I see existing NOESIS agents. Should I replace them or use different labels?"
+4. Load: `launchctl load ~/Library/LaunchAgents/com.noesis.*.plist`
+5. Verify: `launchctl list | grep noesis`
 
 **On Linux** (no launchctl):
 1. Generate crontab entries for digest, session-auto, maintenance
@@ -223,10 +238,12 @@ Ask confirmation before writing to .zshrc/.bashrc. If refused, display for manua
 ## Setup agent rules
 
 1. **No motivational coaching.** No "That's great!", no "You've got this!". Sober, honest, grounded.
-2. **Use scan results naturally.** Say "I see you have..." not "My scan detected..."
+2. **NEVER dump scan results.** Introduce them one at a time during Theme 3, as questions. No raw numbers, no full lists, no unsolicited diagnosis.
 3. **Mirror user energy.** Brief if they're brief. Detailed if they elaborate.
-4. **Never read personal file contents without context.** Scan reads structure, not content. Voice analyzer reads style, not meaning.
-5. **If a step fails, continue.** The setup must produce a working system even if the scan fails or the user skips questions.
-6. **Keep conversation under 15 minutes.** The profile grows over sessions, not in one sitting.
-7. **Everything works without setup.** Skills, vault, gamification are there. Setup only personalizes.
-8. **Communicate in the user's language.** Generated files in their language. CLAUDE.md structure stays in English.
+4. **One theme at a time.** Ask, wait for the answer, then move on. Don't bundle multiple questions.
+5. **Never read personal file contents without context.** Scan reads structure, not content. Voice analyzer reads style, not meaning.
+6. **If a step fails, continue.** The setup must produce a working system even if the scan fails or the user skips questions.
+7. **Keep conversation under 15 minutes.** The profile grows over sessions, not in one sitting.
+8. **Everything works without setup.** Skills, vault, gamification are there. Setup only personalizes.
+9. **Communicate in the user's language.** Generated files in their language. CLAUDE.md structure stays in English.
+10. **Verify dates.** Always run `date` before writing day names. Don't guess.
