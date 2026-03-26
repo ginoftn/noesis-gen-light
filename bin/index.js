@@ -53,6 +53,7 @@ const strings = {
       "Your system's name and shell aliases",
     ],
     next: 'Next:',
+    copied: 'Copied to clipboard — just paste and press Enter.',
     sayHello: 'Then just say hello — the setup agent will guide you from there.',
   },
   fr: {
@@ -85,6 +86,7 @@ const strings = {
       'Le nom et les alias shell de ton système',
     ],
     next: 'Suite :',
+    copied: 'Copié dans le presse-papiers — colle et appuie sur Entrée.',
     sayHello: "Puis dis simplement bonjour — l'agent de setup prend le relais.",
   },
   es: {
@@ -117,6 +119,7 @@ const strings = {
       'El nombre y los alias shell de tu sistema',
     ],
     next: 'Siguiente:',
+    copied: 'Copiado al portapapeles — pega y presiona Enter.',
     sayHello: 'Luego simplemente di hola — el agente de setup te guiará.',
   },
 };
@@ -337,6 +340,18 @@ async function main() {
   await wait(200);
   s.done(s18n.gamifDone);
 
+  // Copy next command to clipboard
+  const nextCmd = `cd ${dest} && claude`;
+  try {
+    if (platform() === 'darwin') {
+      execFileSync('pbcopy', { input: nextCmd, stdio: ['pipe', 'ignore', 'ignore'] });
+    } else {
+      execFileSync('xclip', ['-selection', 'clipboard'], { input: nextCmd, stdio: ['pipe', 'ignore', 'ignore'] });
+    }
+  } catch {}
+
+  const copied = s18n.copied || 'Copied to clipboard — just paste and press Enter.';
+
   // Summary
   const items = s18n.setupItems.map(item => `  ${c.dim}•${c.reset} ${item}`).join('\n');
   console.log(`
@@ -347,7 +362,8 @@ ${items}
 
 ${c.bold}${s18n.next}${c.reset}
 
-  ${c.cyan}cd ${dest} && claude${c.reset}
+  ${c.cyan}${nextCmd}${c.reset}
+  ${c.dim}${copied}${c.reset}
 
   ${c.dim}${s18n.sayHello}${c.reset}
 `);

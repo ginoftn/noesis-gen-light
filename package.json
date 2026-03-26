@@ -1,6 +1,6 @@
 {
   "name": "get-noesisgen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "NOESIS — Your cognitive operating system. Install a personalized AI-powered second brain via Claude Code.",
   "type": "module",
   "bin": {
