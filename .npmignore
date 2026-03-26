@@ -1,0 +1,7 @@
+.DS_Store
+.git
+.gitignore
+PROJECT.md
+assets/tapes/
+assets/demo-output.sh
+assets/*.cast

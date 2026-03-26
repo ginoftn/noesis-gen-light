@@ -25,6 +25,10 @@
     "type": "git",
     "url": "git+https://github.com/ginoftn/noesis-gen.git"
   },
+  "homepage": "https://ginoftn.com/workshop",
+  "bugs": {
+    "url": "https://github.com/ginoftn/noesis-gen/issues"
+  },
   "engines": {
     "node": ">=18.0.0"
   }

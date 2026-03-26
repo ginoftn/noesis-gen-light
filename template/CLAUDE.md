@@ -102,14 +102,20 @@ When the scan subagent completes, **DO NOT react to it mid-conversation.** Do no
 
 After the scan completes and the user has given their name (Theme 1), **cross-check the scan's identity signals with what the user said.** If the scan found existing profiles, CLAUDE.md files, or agent configurations with a DIFFERENT name than what the user gave:
 
-- Politely flag it: "I noticed existing files on this machine that reference [scanned name]. Are you [scanned name], or is this someone else's machine?"
+- Politely flag it: "I noticed existing files on this machine that reference someone else. Are you that person, or is this someone else's machine?"
 - If it's someone else's machine / a test: note it and proceed with the user's given identity. Don't use the scanned profile data.
 - If it's the same person with a different name: clarify which name to use.
-- **NEVER silently accept a mismatch.** This prevents building a profile for "Samuel" on Gino's machine.
+- **NEVER silently accept a mismatch.** This prevents building a profile for the wrong person.
+
+### CRITICAL: Scan privacy guardrail
+
+You may detect the existence of other users' files to ask about identity. **NEVER reveal their content — no names, cognitive profiles, personal data, project details, or any information from files that belong to another user.** Say "I found files referencing someone else" — not "I found files referencing John Doe with ADHD who writes novels."
 
 ### Step 3: Onboarding conversation (5 themes)
 
-Ask naturally, not like a form. Mirror the user's energy — brief if they're brief, detailed if they elaborate. **One theme at a time. Wait for the user's response before moving to the next.**
+Ask naturally, not like a form. **Adapt conversation depth to the user's response style.** Short direct answers = fewer questions, move faster (~5 minutes total). Elaborate exploratory answers = deeper follow-ups, take your time (~15 minutes). Do NOT ask the user to choose between "Express" and "Deep" — adapt silently.
+
+Mirror the user's energy — brief if they're brief, detailed if they elaborate. **One theme at a time. Wait for the user's response before moving to the next.**
 
 **Theme 1 — Identity**
 - What's your name?
@@ -242,11 +248,15 @@ Detect shell. Propose 4 aliases (`{{name}}`, `{{name}}r`, `{{name}}status`, `{{n
 3. **Mirror user energy.** Brief if they're brief. Detailed if they elaborate.
 4. **One theme at a time.** Ask, wait, then move on.
 5. **NEVER react to background agent completion mid-conversation.** Continue the current theme naturally. Use scan results only at Theme 3.
+16. **ALWAYS complete the setup.** If the user provides enough information to build a profile (name, activity, at least 1 project, some sense of how they work), proceed to file generation. Do NOT keep asking questions indefinitely. A partial profile is better than no profile — it grows over sessions. If the user says "do the setup" or "fais le setup complet", that is an explicit instruction to generate NOW with what you have. Imperfect information is fine. Missing fields get "To explore in future sessions" — never block generation waiting for perfect data.
+17. **Maximum 6 questions before generating.** After 6 exchanges (not counting identity check), move to file generation regardless. The profile is enriched over time, not perfected at setup.
 6. **Cross-check identity.** If scan finds a different name than the user gave, flag it immediately.
 7. **Never read personal file contents without context.** Scan reads structure, voice analyzer reads style — not meaning.
 8. **If a step fails, continue.** Must produce a working system regardless.
 9. **Keep conversation under 15 minutes.** Profile grows over sessions.
 10. **Everything works without setup.** Skills, vault, gamification are there. Setup only personalizes.
-11. **Communicate in the user's language.** Generated files in their language. Structure stays in English.
+11. **Communicate in the user's language.** Detect from their first message. ALL generated content in their language — including CLAUDE.md final section titles, descriptions, instructions, file contents. Only code-level identifiers (USER.ENV, SHARED.ENV, skill names) stay in English.
 12. **Verify dates.** Always run `date` before writing day names.
 13. **Show progress.** Display ✓ checkmarks as files are generated. Make it feel like an installation, not a silent write.
+14. **Auto-create tasks on deadlines.** When the user mentions a deadline ("call tomorrow at 2pm", "delivery Friday"), create a task in `vault/SHARED.ENV/queue/pending.md` automatically. Confirm briefly ("Noted in your tasks.").
+15. **First session after setup.** When generating the final CLAUDE.md, include a "First session" section: if only one daily note exists (the setup one), automatically present what the system can do + available commands. Don't wait for the user to ask.

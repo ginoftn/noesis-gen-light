@@ -7,6 +7,124 @@ import { createInterface } from 'readline';
 import { execFileSync } from 'child_process';
 import { homedir, platform } from 'os';
 
+// Detect system language (macOS: AppleLanguages, Linux: $LANG)
+function getSystemLang() {
+  try {
+    if (platform() === 'darwin') {
+      const out = execFileSync('defaults', ['read', '-g', 'AppleLanguages'], { encoding: 'utf8' });
+      const match = out.match(/"?([a-z]{2})/i);
+      if (match) return match[1].toLowerCase();
+    }
+  } catch {}
+  const lang = process.env.LANG || process.env.LANGUAGE || process.env.LC_ALL || '';
+  const match = lang.match(/^([a-z]{2})/i);
+  return match ? match[1].toLowerCase() : 'en';
+}
+
+// i18n strings
+const strings = {
+  en: {
+    preflight: 'Preflight checks',
+    whereLive: 'Where should NOESIS live?',
+    choices: ['Desktop/Noesis', 'Documents/Noesis', 'Custom path'],
+    chooseLocation: 'Choose a location:',
+    customPath: 'Enter path:',
+    alreadyExists: 'already exists. Overwrite? (y/N)',
+    cancelled: 'Installation cancelled.',
+    installing: 'Installing NOESIS',
+    creatingVault: 'Creating vault structure...',
+    vaultDone: 'Vault structure created (USER.ENV / SHARED.ENV / AI.ENV)',
+    settingScripts: 'Setting up background scripts...',
+    scriptsDone: (n) => `${n} background scripts ready`,
+    installingSkills: 'Installing skills...',
+    skillsDone: (n) => `${n} skills installed (/bonjour /status /recap /sync /task /deepwork /profile-deep)`,
+    configuringSubs: 'Configuring subagents...',
+    subsDone: '2 subagents configured (analyzer, voice-analyzer)',
+    preparingAgents: 'Preparing background agents...',
+    agentsDone: '4 background agent templates ready (digest, session, watcher, maintenance)',
+    settingGamif: 'Setting up gamification...',
+    gamifDone: 'Gamification ready (18 levels, 3 acts, 48h grace period)',
+    installedTo: (dest) => `NOESIS installed to ${dest}`,
+    setupWill: 'Everything is ready. The setup agent will personalize it for you:',
+    setupItems: [
+      'Your profile, portrait, and voice analysis',
+      'Your projects (detected from your files)',
+      'Background agents (scheduled to your rhythm)',
+      "Your system's name and shell aliases",
+    ],
+    next: 'Next:',
+    sayHello: 'Then just say hello — the setup agent will guide you from there.',
+  },
+  fr: {
+    preflight: 'Vérifications préliminaires',
+    whereLive: 'Où installer NOESIS ?',
+    choices: ['Desktop/Noesis', 'Documents/Noesis', 'Chemin personnalisé'],
+    chooseLocation: 'Choisir un emplacement :',
+    customPath: 'Entrer le chemin :',
+    alreadyExists: 'existe déjà. Écraser ? (o/N)',
+    cancelled: 'Installation annulée.',
+    installing: 'Installation de NOESIS',
+    creatingVault: 'Création de la structure vault...',
+    vaultDone: 'Structure vault créée (USER.ENV / SHARED.ENV / AI.ENV)',
+    settingScripts: 'Configuration des scripts...',
+    scriptsDone: (n) => `${n} scripts prêts`,
+    installingSkills: 'Installation des skills...',
+    skillsDone: (n) => `${n} skills installés (/bonjour /status /recap /sync /task /deepwork /profile-deep)`,
+    configuringSubs: 'Configuration des subagents...',
+    subsDone: '2 subagents configurés (analyzer, voice-analyzer)',
+    preparingAgents: 'Préparation des agents de fond...',
+    agentsDone: '4 agents de fond prêts (digest, session, watcher, maintenance)',
+    settingGamif: 'Configuration de la gamification...',
+    gamifDone: 'Gamification prête (18 niveaux, 3 actes, période de grâce 48h)',
+    installedTo: (dest) => `NOESIS installé dans ${dest}`,
+    setupWill: "Tout est prêt. L'agent de setup va tout personnaliser :",
+    setupItems: [
+      'Ton profil, portrait et analyse vocale',
+      'Tes projets (détectés depuis tes fichiers)',
+      'Les agents de fond (calés sur ton rythme)',
+      'Le nom et les alias shell de ton système',
+    ],
+    next: 'Suite :',
+    sayHello: "Puis dis simplement bonjour — l'agent de setup prend le relais.",
+  },
+  es: {
+    preflight: 'Verificaciones previas',
+    whereLive: '¿Dónde instalar NOESIS?',
+    choices: ['Desktop/Noesis', 'Documents/Noesis', 'Ruta personalizada'],
+    chooseLocation: 'Elige una ubicación:',
+    customPath: 'Introduce la ruta:',
+    alreadyExists: 'ya existe. ¿Sobrescribir? (s/N)',
+    cancelled: 'Instalación cancelada.',
+    installing: 'Instalando NOESIS',
+    creatingVault: 'Creando estructura del vault...',
+    vaultDone: 'Estructura del vault creada (USER.ENV / SHARED.ENV / AI.ENV)',
+    settingScripts: 'Configurando scripts...',
+    scriptsDone: (n) => `${n} scripts listos`,
+    installingSkills: 'Instalando skills...',
+    skillsDone: (n) => `${n} skills instalados (/bonjour /status /recap /sync /task /deepwork /profile-deep)`,
+    configuringSubs: 'Configurando subagentes...',
+    subsDone: '2 subagentes configurados (analyzer, voice-analyzer)',
+    preparingAgents: 'Preparando agentes de fondo...',
+    agentsDone: '4 agentes de fondo listos (digest, session, watcher, maintenance)',
+    settingGamif: 'Configurando gamificación...',
+    gamifDone: 'Gamificación lista (18 niveles, 3 actos, período de gracia 48h)',
+    installedTo: (dest) => `NOESIS instalado en ${dest}`,
+    setupWill: 'Todo listo. El agente de setup lo personalizará todo:',
+    setupItems: [
+      'Tu perfil, retrato y análisis vocal',
+      'Tus proyectos (detectados en tus archivos)',
+      'Agentes de fondo (ajustados a tu ritmo)',
+      'El nombre y los alias shell de tu sistema',
+    ],
+    next: 'Siguiente:',
+    sayHello: 'Luego simplemente di hola — el agente de setup te guiará.',
+  },
+};
+
+function t(lang) {
+  return strings[lang] || strings.en;
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const TEMPLATE_DIR = resolve(__dirname, '..', 'template');
@@ -55,18 +173,18 @@ function spinner(label) {
   const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
   let i = 0;
   const interval = setInterval(() => {
-    process.stdout.write(`\r${c.cyan}${frames[i % frames.length]}${c.reset} ${label}`);
+    process.stdout.write(`\r\x1b[K${c.cyan}${frames[i % frames.length]}${c.reset} ${label}`);
     i++;
   }, 80);
 
   return {
     done(msg) {
       clearInterval(interval);
-      process.stdout.write(`\r${c.green}✓${c.reset} ${msg || label}\n`);
+      process.stdout.write(`\r\x1b[K${c.green}✓${c.reset} ${msg || label}\n`);
     },
     fail(msg) {
       clearInterval(interval);
-      process.stdout.write(`\r${c.red}✗${c.reset} ${msg || label}\n`);
+      process.stdout.write(`\r\x1b[K${c.red}✗${c.reset} ${msg || label}\n`);
     }
   };
 }
@@ -111,42 +229,71 @@ function ask(question, defaultValue) {
   });
 }
 
+// Choose from numbered list
+async function choose(question, options) {
+  console.log(`\n${question}`);
+  for (let i = 0; i < options.length; i++) {
+    console.log(`  ${c.cyan}${i + 1}.${c.reset} ${options[i]}`);
+  }
+  const answer = await ask(`\n${c.dim}(1-${options.length})${c.reset}`, '1');
+  const idx = parseInt(answer) - 1;
+  return idx >= 0 && idx < options.length ? idx : 0;
+}
+
 // Main
 async function main() {
   const version = getVersion();
+  const lang = getSystemLang();
+  const s18n = t(lang);
 
   console.log(getBanner(version));
 
   // Preflight
-  console.log(`${c.bold}Preflight checks${c.reset}`);
+  console.log(`${c.bold}${s18n.preflight}${c.reset}`);
   preflight();
   console.log();
 
-  // Destination path
-  const defaultPath = join(homedir(), 'Desktop', 'Noesis');
-  const destInput = await ask('Where should NOESIS live?', defaultPath);
-  const dest = resolve(destInput.replace(/^~/, homedir()));
+  // Destination path with choices
+  const home = homedir();
+  const pathOptions = [
+    join(home, 'Desktop', 'Noesis'),
+    join(home, 'Documents', 'Noesis'),
+  ];
+
+  const choice = await choose(s18n.chooseLocation, [
+    ...s18n.choices.slice(0, 2).map((label, i) => `${label} ${c.dim}(${pathOptions[i]})${c.reset}`),
+    s18n.choices[2],
+  ]);
+
+  let dest;
+  if (choice < 2) {
+    dest = pathOptions[choice];
+  } else {
+    const customInput = await ask(s18n.customPath);
+    dest = resolve(customInput.replace(/^~/, home));
+  }
 
   // Check if exists
   if (existsSync(dest)) {
-    const overwrite = await ask(`${dest} already exists. Overwrite? (y/N)`, 'N');
-    if (overwrite.toLowerCase() !== 'y') {
-      console.log(`\n${c.dim}Installation cancelled.${c.reset}`);
+    const confirmChar = lang === 'fr' ? 'o' : lang === 'es' ? 's' : 'y';
+    const overwrite = await ask(`${dest} ${s18n.alreadyExists}`, 'N');
+    if (overwrite.toLowerCase() !== confirmChar && overwrite.toLowerCase() !== 'y') {
+      console.log(`\n${c.dim}${s18n.cancelled}${c.reset}`);
       process.exit(0);
     }
   }
 
-  console.log(`\n${c.bold}Installing NOESIS${c.reset}\n`);
+  console.log(`\n${c.bold}${s18n.installing}${c.reset}\n`);
 
   // Step 1: Vault structure
-  let s = spinner('Creating vault structure...');
+  let s = spinner(s18n.creatingVault);
   mkdirSync(dest, { recursive: true });
   cpSync(TEMPLATE_DIR, dest, { recursive: true });
   await wait(400);
-  s.done('Vault structure created (USER.ENV / SHARED.ENV / AI.ENV)');
+  s.done(s18n.vaultDone);
 
   // Step 2: Scripts
-  s = spinner('Setting up background scripts...');
+  s = spinner(s18n.settingScripts);
   const scriptsDir = join(dest, 'scripts');
   let scriptCount = 0;
   if (existsSync(scriptsDir)) {
@@ -159,10 +306,10 @@ async function main() {
     } catch {}
   }
   await wait(300);
-  s.done(`${scriptCount} background scripts ready`);
+  s.done(s18n.scriptsDone(scriptCount));
 
   // Step 3: Skills
-  s = spinner('Installing skills...');
+  s = spinner(s18n.installingSkills);
   const skillsDir = join(dest, '.claude', 'skills');
   let skillCount = 0;
   if (existsSync(skillsDir)) {
@@ -173,36 +320,36 @@ async function main() {
     } catch {}
   }
   await wait(350);
-  s.done(`${skillCount} skills installed (/bonjour /status /recap /sync /task /deepwork /profile-deep)`);
+  s.done(s18n.skillsDone(skillCount));
 
   // Step 4: Subagents
-  s = spinner('Configuring subagents...');
+  s = spinner(s18n.configuringSubs);
   await wait(250);
-  s.done('2 subagents configured (analyzer, voice-analyzer)');
+  s.done(s18n.subsDone);
 
   // Step 5: LaunchAgent templates
-  s = spinner('Preparing background agents...');
+  s = spinner(s18n.preparingAgents);
   await wait(300);
-  s.done('4 background agent templates ready (digest, session, watcher, maintenance)');
+  s.done(s18n.agentsDone);
 
   // Step 6: Gamification
-  s = spinner('Setting up gamification...');
+  s = spinner(s18n.settingGamif);
   await wait(200);
-  s.done('Gamification ready (18 levels, 3 acts, 48h grace period)');
+  s.done(s18n.gamifDone);
 
   // Summary
+  const items = s18n.setupItems.map(item => `  ${c.dim}•${c.reset} ${item}`).join('\n');
   console.log(`
-${c.green}${c.bold}✓ NOESIS installed to ${dest}${c.reset}
+${c.green}${c.bold}✓ ${s18n.installedTo(dest)}${c.reset}
 
-  ${c.dim}Everything is ready. The setup agent will personalize it for you:${c.reset}
-  ${c.dim}•${c.reset} Your profile, portrait, and voice analysis
-  ${c.dim}•${c.reset} Your projects (detected from your files)
-  ${c.dim}•${c.reset} Background agents (scheduled to your rhythm)
-  ${c.dim}•${c.reset} Your system's name and shell aliases
+  ${c.dim}${s18n.setupWill}${c.reset}
+${items}
 
-${c.bold}Next:${c.reset}
+${c.bold}${s18n.next}${c.reset}
 
   ${c.cyan}cd ${dest} && claude${c.reset}
+
+  ${c.dim}${s18n.sayHello}${c.reset}
 `);
 }
 
