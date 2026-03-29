@@ -1,10 +1,10 @@
 {
-  "name": "get-noesisgen",
+  "name": "get-noesisgen-light",
   "version": "0.1.1",
-  "description": "NOESIS — Your cognitive operating system. Install a personalized AI-powered second brain via Claude Code.",
+  "description": "NOESIS Light — Your cognitive operating system starter kit. Install a personalized AI-powered second brain via Claude Code.",
   "type": "module",
   "bin": {
-    "get-noesisgen": "bin/index.js"
+    "get-noesisgen-light": "bin/index.js"
   },
   "files": [
     "bin/",
@@ -23,9 +23,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ginoftn/noesis-gen.git"
+    "url": "git+https://github.com/ginoftn/noesis-gen-light.git"
   },
-  "homepage": "https://ginoftn.com/workshop",
+  "homepage": "https://github.com/ginoftn/noesis-gen-light",
   "bugs": {
     "url": "https://github.com/ginoftn/noesis-gen/issues"
   },

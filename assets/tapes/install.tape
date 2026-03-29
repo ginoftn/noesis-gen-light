@@ -19,7 +19,7 @@ Sleep 500ms
 
 Set TypingSpeed 60ms
 
-Type "npx get-noesisgen"
+Type "npx get-noesisgen-light"
 Sleep 400ms
 Enter
 Sleep 12s

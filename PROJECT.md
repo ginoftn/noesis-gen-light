@@ -6,9 +6,9 @@
 
 Starter kit open source (MIT) pour construire son propre OS cognitif sur Claude Code. Extrait de NOESIS.
 
-- **Package npm** : `get-noesisgen` (v0.1.0, pas encore publie sur npm)
+- **Package npm** : `get-noesisgen-light` (v0.1.0, pas encore publie sur npm)
 - **Installation locale** : `npx ~/Desktop/AppProjects/noesis-gen`
-- **Installation npm (apres publication)** : `npx get-noesisgen`
+- **Installation npm (apres publication)** : `npx get-noesisgen-light`
 
 ## Structure
 
@@ -31,7 +31,7 @@ noesis-gen/
 
 ## Flow utilisateur
 
-1. `npx get-noesisgen` → banner ASCII
+1. `npx get-noesisgen-light` → banner ASCII
 2. Scan du vault/environnement existant
 3. Conversation de calibration (Express ~5min / Deep ~15min)
 4. Generation voice-dna personnalise

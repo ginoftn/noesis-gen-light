@@ -21,7 +21,7 @@ Extracted from NOESIS, a system used daily by a nonlinear author to manage 15+ c
 ## Install
 
 ```bash
-npx get-noesisgen
+npx get-noesisgen-light
 ```
 
 ![NoesisGen Install](assets/install.gif)
@@ -139,7 +139,7 @@ These are starting points. Configure them with your paths, your schedule, your r
 NoesisGen Light is the free, open source foundation. If you want to go further:
 
 - **NoesisGen** — [live workshop](https://ginoftn.com/workshop) ($49). Learn how to build and calibrate your full system. Includes access to the extended template repo. Optional Substack subscription ($9/month) for ongoing content and updates.
-- **NoesisPro** — [1:1 session(s)](https://ginoftn.com/pro) ($199–899). From guided installation to full architecture — built with you, calibrated to your cognitive profile.
+- **NoesisPro** — [1:1 session(s)](https://ginoftn.com/pro) ($199–899). From guided installation to full architecture — built with you, calibrated to your cognitive profile. Substack Founder subscription included with Architect ($499) and Full Build ($899) tiers.
 
 Both tiers are about expertise, not code. The code is the support — the value is in the calibration.
 

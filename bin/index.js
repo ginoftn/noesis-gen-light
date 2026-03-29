@@ -25,13 +25,13 @@ function getSystemLang() {
 const strings = {
   en: {
     preflight: 'Preflight checks',
-    whereLive: 'Where should NOESIS live?',
+    whereLive: 'Where should NOESIS Light live?',
     choices: ['Desktop/Noesis', 'Documents/Noesis', 'Custom path'],
     chooseLocation: 'Choose a location:',
     customPath: 'Enter path:',
     alreadyExists: 'already exists. Overwrite? (y/N)',
     cancelled: 'Installation cancelled.',
-    installing: 'Installing NOESIS',
+    installing: 'Installing NOESIS Light',
     creatingVault: 'Creating vault structure...',
     vaultDone: 'Vault structure created (USER.ENV / SHARED.ENV / AI.ENV)',
     settingScripts: 'Setting up background scripts...',
@@ -44,7 +44,7 @@ const strings = {
     agentsDone: '4 background agent templates ready (digest, session, watcher, maintenance)',
     settingGamif: 'Setting up gamification...',
     gamifDone: 'Gamification ready (18 levels, 3 acts, 48h grace period)',
-    installedTo: (dest) => `NOESIS installed to ${dest}`,
+    installedTo: (dest) => `NOESIS Light installed to ${dest}`,
     setupWill: 'Everything is ready. The setup agent will personalize it for you:',
     setupItems: [
       'Your profile, portrait, and voice analysis',
@@ -58,13 +58,13 @@ const strings = {
   },
   fr: {
     preflight: 'Vérifications préliminaires',
-    whereLive: 'Où installer NOESIS ?',
+    whereLive: 'Où installer NOESIS Light ?',
     choices: ['Desktop/Noesis', 'Documents/Noesis', 'Chemin personnalisé'],
     chooseLocation: 'Choisir un emplacement :',
     customPath: 'Entrer le chemin :',
     alreadyExists: 'existe déjà. Écraser ? (o/N)',
     cancelled: 'Installation annulée.',
-    installing: 'Installation de NOESIS',
+    installing: 'Installation de NOESIS Light',
     creatingVault: 'Création de la structure vault...',
     vaultDone: 'Structure vault créée (USER.ENV / SHARED.ENV / AI.ENV)',
     settingScripts: 'Configuration des scripts...',
@@ -77,7 +77,7 @@ const strings = {
     agentsDone: '4 agents de fond prêts (digest, session, watcher, maintenance)',
     settingGamif: 'Configuration de la gamification...',
     gamifDone: 'Gamification prête (18 niveaux, 3 actes, période de grâce 48h)',
-    installedTo: (dest) => `NOESIS installé dans ${dest}`,
+    installedTo: (dest) => `NOESIS Light installé dans ${dest}`,
     setupWill: "Tout est prêt. L'agent de setup va tout personnaliser :",
     setupItems: [
       'Ton profil, portrait et analyse vocale',
@@ -91,13 +91,13 @@ const strings = {
   },
   es: {
     preflight: 'Verificaciones previas',
-    whereLive: '¿Dónde instalar NOESIS?',
+    whereLive: '¿Dónde instalar NOESIS Light?',
     choices: ['Desktop/Noesis', 'Documents/Noesis', 'Ruta personalizada'],
     chooseLocation: 'Elige una ubicación:',
     customPath: 'Introduce la ruta:',
     alreadyExists: 'ya existe. ¿Sobrescribir? (s/N)',
     cancelled: 'Instalación cancelada.',
-    installing: 'Instalando NOESIS',
+    installing: 'Instalando NOESIS Light',
     creatingVault: 'Creando estructura del vault...',
     vaultDone: 'Estructura del vault creada (USER.ENV / SHARED.ENV / AI.ENV)',
     settingScripts: 'Configurando scripts...',
@@ -110,7 +110,7 @@ const strings = {
     agentsDone: '4 agentes de fondo listos (digest, session, watcher, maintenance)',
     settingGamif: 'Configurando gamificación...',
     gamifDone: 'Gamificación lista (18 niveles, 3 actos, período de gracia 48h)',
-    installedTo: (dest) => `NOESIS instalado en ${dest}`,
+    installedTo: (dest) => `NOESIS Light instalado en ${dest}`,
     setupWill: 'Todo listo. El agente de setup lo personalizará todo:',
     setupItems: [
       'Tu perfil, retrato y análisis vocal',
@@ -158,7 +158,7 @@ function getBanner(version) {
     const banner = readFileSync(resolve(__dirname, '..', 'assets', 'banner.txt'), 'utf8');
     return `${c.cyan}${banner}${c.reset}${c.dim}   v${version}${c.reset}\n`;
   } catch {
-    return `${c.cyan}${c.bold}NOESIS${c.reset} ${c.dim}v${version}${c.reset}\n   Your cognitive operating system.\n`;
+    return `${c.cyan}${c.bold}NOESIS Light${c.reset} ${c.dim}v${version}${c.reset}\n   Your cognitive operating system starter kit.\n`;
   }
 }
 
@@ -201,7 +201,7 @@ function wait(ms) {
 function preflight() {
   const p = platform();
   if (p !== 'darwin' && p !== 'linux') {
-    fail(`NOESIS requires macOS or Linux. Detected: ${p}`);
+    fail(`NOESIS Light requires macOS or Linux. Detected: ${p}`);
   }
 
   const nodeVersion = parseInt(process.version.slice(1));
