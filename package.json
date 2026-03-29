@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/ginoftn/noesis-gen-light",
   "bugs": {
-    "url": "https://github.com/ginoftn/noesis-gen/issues"
+    "url": "https://github.com/ginoftn/noesis-gen-light/issues"
   },
   "engines": {
     "node": ">=18.0.0"
