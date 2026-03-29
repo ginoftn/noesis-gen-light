@@ -1,6 +1,6 @@
 {
   "name": "get-noesisgen-light",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "NOESIS Light — Your cognitive operating system starter kit. Install a personalized AI-powered second brain via Claude Code.",
   "type": "module",
   "bin": {
