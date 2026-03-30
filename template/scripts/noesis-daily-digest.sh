@@ -58,15 +58,22 @@ if [ -d "$CAPTURES_DIR" ]; then
     RECENT_CAPTURES=$(find "$CAPTURES_DIR" -name "*.md" -mtime -3 -exec basename {} \; 2>/dev/null | head -10)
 fi
 
-PROMPT=$(cat <<'PROMPT_EOF'
-You are the NOESIS daily digest agent. Generate today's brief.
+# Write context to temp files (avoids bash substitution bugs on multiline content)
+TMPDIR=$(mktemp -d)
+echo "$YESTERDAY_CONTEXT" > "$TMPDIR/yesterday.txt"
+echo "$OBJECTIVES_CONTEXT" > "$TMPDIR/objectives.txt"
+echo "$MOMENTUM_CONTEXT" > "$TMPDIR/momentum.txt"
+echo "$PENDING_CONTEXT" > "$TMPDIR/pending.txt"
+echo "$RECENT_CAPTURES" > "$TMPDIR/captures.txt"
 
-CONTEXT:
-- Yesterday's daily note: %YESTERDAY%
-- Active objectives: %OBJECTIVES%
-- Momentum: %MOMENTUM%
-- Pending tasks: %PENDING%
-- Recent captures: %CAPTURES%
+PROMPT="You are the NOESIS daily digest agent. Generate today's brief.
+
+Read the following context files before generating:
+- Yesterday's daily note: $TMPDIR/yesterday.txt
+- Active objectives: $TMPDIR/objectives.txt
+- Momentum: $TMPDIR/momentum.txt
+- Pending tasks: $TMPDIR/pending.txt
+- Recent captures: $TMPDIR/captures.txt
 
 INSTRUCTIONS:
 1. Read the user's profil.md and voice-dna.md Part 1 to know their language and tone.
@@ -75,19 +82,13 @@ INSTRUCTIONS:
    - **Today's focus** (based on objectives and momentum)
    - **Tasks for today** (generate 2-4 concrete tasks, add to pending.md if not already there)
    - **Signal** (any pattern worth noting — burst, stagnation, new project started)
-3. Save the digest to: vault/AI.ENV/outputs/digest-YYYY-MM-DD.md (use today's date)
+3. Save the digest to: vault/AI.ENV/outputs/digest-${DATE}.md (use today's date)
 4. Also save a copy to: vault/AI.ENV/outputs/digest-latest.md (overwrite)
 5. If there are new tasks, add them to vault/SHARED.ENV/queue/pending.md
-6. Keep it under 30 lines. Compact. Every line carries information.
-PROMPT_EOF
-)
+6. Keep it under 30 lines. Compact. Every line carries information."
 
-# Replace placeholders
-PROMPT="${PROMPT//%YESTERDAY%/$YESTERDAY_CONTEXT}"
-PROMPT="${PROMPT//%OBJECTIVES%/$OBJECTIVES_CONTEXT}"
-PROMPT="${PROMPT//%MOMENTUM%/$MOMENTUM_CONTEXT}"
-PROMPT="${PROMPT//%PENDING%/$PENDING_CONTEXT}"
-PROMPT="${PROMPT//%CAPTURES%/$RECENT_CAPTURES}"
+# Cleanup temp files after Claude finishes (trap ensures cleanup on error too)
+trap 'rm -rf "$TMPDIR"' EXIT
 
 # Run Claude
 cd "$(dirname "$SCRIPT_DIR")"

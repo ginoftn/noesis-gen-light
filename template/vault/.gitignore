@@ -1,0 +1,21 @@
+# Credentials
+.telegram-credentials
+*.credentials
+*.secret
+*.key
+
+# Logs
+AI.ENV/logs/*.log
+SHARED.ENV/logs/*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Temp files
+*.tmp

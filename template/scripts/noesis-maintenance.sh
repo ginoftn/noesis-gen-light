@@ -23,10 +23,8 @@ log "=== Starting monthly maintenance ==="
 
 # 1. Log rotation: compress logs older than 30 days
 log "Rotating logs older than 30 days..."
-ROTATED=0
-find "$LOG_DIR" -name "*.log" -mtime +30 -not -name "maintenance-*" 2>/dev/null | while read -r f; do
-    gzip "$f" 2>/dev/null && ROTATED=$((ROTATED + 1))
-done
+ROTATED=$(find "$LOG_DIR" -name "*.log" -mtime +30 -not -name "maintenance-*" 2>/dev/null | wc -l | tr -d ' ')
+find "$LOG_DIR" -name "*.log" -mtime +30 -not -name "maintenance-*" -exec gzip {} \; 2>/dev/null
 log "Rotated $ROTATED log file(s)."
 
 # Remove compressed logs older than 90 days
@@ -40,8 +38,8 @@ if [ -d "$ROOT_DIR/.git" ]; then
     cd "$ROOT_DIR"
     git add -A 2>/dev/null
     CHANGES=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
-    if [ "$CHANGES" -gt 0 ]; then
-        git commit -m "vault: monthly auto-commit $DATE" 2>/dev/null
+    if [ "${CHANGES:-0}" -gt 0 ]; then
+        git commit -m "vault: monthly auto-commit $DATE" 2>/dev/null || true
         log "Committed $CHANGES change(s)."
     else
         log "No changes to commit."

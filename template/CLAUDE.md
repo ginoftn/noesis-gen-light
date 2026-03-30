@@ -214,9 +214,17 @@ Propose a name calibrated to the conversation. Short, resonates, sounds good in 
 
 Detect shell. Propose 4 aliases (`{{name}}`, `{{name}}r`, `{{name}}status`, `{{name}}brief`). Ask confirmation before writing. If refused, display for manual addition.
 
+### CRITICAL: `{{THREADS}}` generation
+
+When generating the final CLAUDE.md, you MUST populate the `{{THREADS}}` placeholder:
+- If the conversation surfaced clear themes: write 2-4 threads with one-line descriptions.
+- If the user was terse or you could not identify threads: write a placeholder:
+  `*To identify over sessions — patterns across [Project A], [Project B]. The system will detect and propose threads as it learns your work.*`
+- NEVER leave `{{THREADS}}` as a literal unfilled variable.
+
 ### Step 10: Finalization
 
-1. Read `CLAUDE-final.md.template`, replace ALL variables, write as new CLAUDE.md.
+1. Read `CLAUDE-final.md.template`, replace ALL variables (including `{{THREADS}}`), write as new CLAUDE.md.
 2. Display final summary with ASCII:
 
 ```
@@ -248,15 +256,15 @@ Detect shell. Propose 4 aliases (`{{name}}`, `{{name}}r`, `{{name}}status`, `{{n
 3. **Mirror user energy.** Brief if they're brief. Detailed if they elaborate.
 4. **One theme at a time.** Ask, wait, then move on.
 5. **NEVER react to background agent completion mid-conversation.** Continue the current theme naturally. Use scan results only at Theme 3.
-16. **ALWAYS complete the setup.** If the user provides enough information to build a profile (name, activity, at least 1 project, some sense of how they work), proceed to file generation. Do NOT keep asking questions indefinitely. A partial profile is better than no profile — it grows over sessions. If the user says "do the setup" or "fais le setup complet", that is an explicit instruction to generate NOW with what you have. Imperfect information is fine. Missing fields get "To explore in future sessions" — never block generation waiting for perfect data.
-17. **Maximum 6 questions before generating.** After 6 exchanges (not counting identity check), move to file generation regardless. The profile is enriched over time, not perfected at setup.
-6. **Cross-check identity.** If scan finds a different name than the user gave, flag it immediately.
-7. **Never read personal file contents without context.** Scan reads structure, voice analyzer reads style — not meaning.
-8. **If a step fails, continue.** Must produce a working system regardless.
-9. **Keep conversation under 15 minutes.** Profile grows over sessions.
-10. **Everything works without setup.** Skills, vault, gamification are there. Setup only personalizes.
-11. **Communicate in the user's language.** Detect from their first message. ALL generated content in their language — including CLAUDE.md final section titles, descriptions, instructions, file contents. Only code-level identifiers (USER.ENV, SHARED.ENV, skill names) stay in English.
-12. **Verify dates.** Always run `date` before writing day names.
-13. **Show progress.** Display ✓ checkmarks as files are generated. Make it feel like an installation, not a silent write.
-14. **Auto-create tasks on deadlines.** When the user mentions a deadline ("call tomorrow at 2pm", "delivery Friday"), create a task in `vault/SHARED.ENV/queue/pending.md` automatically. Confirm briefly ("Noted in your tasks.").
-15. **First session after setup.** When generating the final CLAUDE.md, include a "First session" section: if only one daily note exists (the setup one), automatically present what the system can do + available commands. Don't wait for the user to ask.
+6. **ALWAYS complete the setup.** If the user provides enough information to build a profile (name, activity, at least 1 project, some sense of how they work), proceed to file generation. Do NOT keep asking questions indefinitely. A partial profile is better than no profile — it grows over sessions. If the user says "do the setup" or "fais le setup complet", that is an explicit instruction to generate NOW with what you have. Imperfect information is fine. Missing fields get "To explore in future sessions" — never block generation waiting for perfect data.
+7. **Maximum 6 questions before generating.** After 6 exchanges (not counting identity check), move to file generation regardless. The profile is enriched over time, not perfected at setup.
+8. **Cross-check identity.** If scan finds a different name than the user gave, flag it immediately.
+9. **Never read personal file contents without context.** Scan reads structure, voice analyzer reads style — not meaning.
+10. **If a step fails, continue.** Must produce a working system regardless.
+11. **Keep conversation under 15 minutes.** Profile grows over sessions.
+12. **Everything works without setup.** Skills, vault, gamification are there. Setup only personalizes.
+13. **Communicate in the user's language.** Detect from their first message. ALL generated content in their language — including CLAUDE.md final section titles, descriptions, instructions, file contents. Only code-level identifiers (USER.ENV, SHARED.ENV, skill names) stay in English.
+14. **Verify dates.** Always run `date` before writing day names.
+15. **Show progress.** Display ✓ checkmarks as files are generated. Make it feel like an installation, not a silent write.
+16. **Auto-create tasks on deadlines.** When the user mentions a deadline ("call tomorrow at 2pm", "delivery Friday"), create a task in `vault/SHARED.ENV/queue/pending.md` automatically. Confirm briefly ("Noted in your tasks.").
+17. **First session after setup.** When generating the final CLAUDE.md, include a "First session" section: if only one daily note exists (the setup one), automatically present what the system can do + available commands. Don't wait for the user to ask.

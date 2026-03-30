@@ -1,7 +1,7 @@
 # Gamification -- Configuration
 
-*Systeme de progression. Dopamine immediate, pas de punition, grace periods.*
-*Les categories XP sont adaptees au profil detecte lors du setup.*
+*Progression system. Immediate dopamine, no punishment, grace periods.*
+*XP categories are adapted to the user's profile during setup.*
 
 ---
 
@@ -9,78 +9,77 @@
 
 ### Categories generiques
 
-| Categorie | Action | XP | Condition |
-|-----------|--------|-----|-----------|
-| Ecriture | 100 mots ecrits | 15 | Tout projet creatif |
-| Ecriture | 500 mots en une session | 40 | Bonus cumul |
-| Ecriture | 1000 mots en une session | 80 | Bonus cumul |
-| Code | Commit significatif | 20 | Avancee reelle |
-| Code | Feature terminee | 80 | Feature complete |
-| Organisation | Session de travail productive | 20 | Avancee significative |
-| Organisation | Tache completee | 10 | Via /task |
-| Reflexion | Connexion identifiee | 15 | Lien entre projets |
-| Reflexion | Pattern documente | 25 | Nouveau pattern dans registre |
-| Publication | Contenu publie | 120 | Publie, pas juste programme |
-| Publication | Premiere publication | 200 | Bonus deblocage |
-| Projet | Milestone atteint | 250 | Etape majeure |
-| Projet | Projet termine | 1000 | Completion confirmee |
-| Systeme | Session interactive | 3 | Chaque session |
+| Category | Action | XP | Condition |
+|----------|--------|-----|-----------|
+| Writing | 100 words written | 15 | Any creative project |
+| Writing | 500 words in one session | 40 | Cumulative bonus |
+| Writing | 1000 words in one session | 80 | Cumulative bonus |
+| Code | Significant commit | 20 | Real progress |
+| Code | Feature finished | 80 | Complete feature |
+| Organization | Productive work session | 20 | Significant progress |
+| Organization | Task completed | 10 | Via /task |
+| Reflection | Connection identified | 15 | Link between projects |
+| Reflection | Pattern documented | 25 | New pattern in register |
+| Publication | Content published | 120 | Published, not just scheduled |
+| Publication | First publication | 200 | First-time bonus |
+| Project | Milestone reached | 250 | Major milestone |
+| Project | Project completed | 1000 | Confirmed completion |
+| System | Interactive session | 3 | Each session |
 
-*Ces categories sont des valeurs par defaut. Le setup les adapte selon les projets detectes.*
-*Tu peux les modifier a tout moment.*
+*These are default categories. Setup adapts them to detected projects. You can modify them anytime.*
 
 ---
 
 ## Streaks
 
-### Streak principal
-- **Condition :** Activite creative ou productive (100 mots, 1 commit, 1 tache)
-- **Grace period :** 48h (2 jours sans activite avant que le streak se pause)
-- **Bonus :** +5 XP par jour de streak actif (plafond : +50 XP/jour a 10 jours)
-- **Pause vs bris :** Le streak se **pause** (compteur gele), il ne se **brise** jamais. Reprendre remet le compteur ou il etait.
+### Main streak
+- **Condition:** Creative or productive activity (100 words, 1 commit, 1 task)
+- **Grace period:** 48h (2 days without activity before the streak pauses)
+- **Bonus:** +5 XP per active streak day (cap: +50 XP/day at 10 days)
+- **Pause vs break:** The streak **pauses** (counter frozen), it never **breaks**. Resuming restores the counter where it was.
 
-### Regle anti-pression
-- Les sessions autonomes NE MENTIONNENT JAMAIS le streak
-- Le streak est une info passive consultable via /status, jamais affichee proactivement
-- **Celebrer, jamais culpabiliser.**
+### Anti-pressure rule
+- Autonomous sessions NEVER mention the streak
+- The streak is passive info viewable via /status, never displayed proactively
+- **Celebrate, never guilt.**
 
 ---
 
-## Niveaux
+## Levels
 
-18 niveaux en 3 actes. Les premiers tombent vite (dopamine). Les derniers demandent un vrai effort.
+18 levels in 3 acts. Early levels come fast (dopamine). Later ones require real effort.
 
-### Acte I : L'Eveil (niveaux 1-5)
-| Niveau | Nom | XP requis |
-|--------|-----|-----------|
-| 1 | Le Dormeur | 0 |
-| 2 | L'Eveille | 100 |
-| 3 | Le Curieux | 300 |
-| 4 | L'Apprenti | 600 |
-| 5 | L'Initie | 1000 |
+### Act 1 — Awakening (lv. 1-5)
+| Level | Name | XP required |
+|-------|------|-------------|
+| 1 | Sleeper | 0 |
+| 2 | Spark | 100 |
+| 3 | Explorer | 300 |
+| 4 | Apprentice | 600 |
+| 5 | Initiate | 1000 |
 
-### Acte II : La Forge (niveaux 6-12)
-| Niveau | Nom | XP requis |
-|--------|-----|-----------|
-| 6 | L'Artisan | 1500 |
-| 7 | Le Forgeur | 2200 |
-| 8 | L'Obsede | 3000 |
-| 9 | Le Marathonien | 4000 |
-| 10 | Le Fidele | 5200 |
-| 11 | L'Enracine | 6500 |
-| 12 | Le Constructeur | 8000 |
+### Act 2 — Building (lv. 6-12)
+| Level | Name | XP required |
+|-------|------|-------------|
+| 6 | Maker | 1500 |
+| 7 | Builder | 2200 |
+| 8 | Shaper | 3000 |
+| 9 | Architect | 4000 |
+| 10 | Adept | 5200 |
+| 11 | Mentor | 6500 |
+| 12 | Guide | 8000 |
 
-### Acte III : La Transmission (niveaux 13-18)
-| Niveau | Nom | XP requis |
-|--------|-----|-----------|
-| 13 | L'Incandescent | 10000 |
-| 14 | Le Passeur | 12500 |
-| 15 | L'Architecte | 15000 |
-| 16 | Le Visionnaire | 18000 |
-| 17 | Le Sage | 21500 |
-| 18 | Le Maitre | 25000 |
+### Act 3 — Mastery (lv. 13-18)
+| Level | Name | XP required |
+|-------|------|-------------|
+| 13 | Pioneer | 10000 |
+| 14 | Weaver | 12500 |
+| 15 | Strategist | 15000 |
+| 16 | Guardian | 18000 |
+| 17 | Founder | 21500 |
+| 18 | Sovereign | 25000 |
 
-*Les noms de niveaux sont personnalisables. Le setup peut proposer des noms adaptes a l'univers de l'utilisateur.*
+*Level names are customizable. The setup agent proposes names adapted to the user's world.*
 
 ---
 
