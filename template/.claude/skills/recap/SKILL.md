@@ -3,7 +3,7 @@ name: recap
 description: End-of-session summary. Updates daily note with what was done, decisions, and next steps.
 user-invocable: true
 disable-model-invocation: false
-argument-hint: "[write] -- no argument = display only, 'write' = write to daily note"
+argument-hint: "[display] -- no argument = display + write to daily note, 'display' = display only (no write)"
 ---
 
 # Recap -- Session summary
@@ -64,9 +64,10 @@ Generate a structured summary of the current session.
 ### `/recap` (display mode)
 - Generate and display the recap in chat
 - Touch no files
-- User can review, adjust, then ask `/recap write`
+- Default behavior: display AND write to daily note (reduces friction for ADHD users)
+- If the user wants to review first: `/recap display` shows without writing
 
-### `/recap write` (write mode)
+### `/recap display` (display-only mode)
 - Generate the recap AND append to today's daily note
 - If daily note doesn't exist, create it from template
 - Confirm with file path

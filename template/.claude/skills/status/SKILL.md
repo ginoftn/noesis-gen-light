@@ -57,6 +57,7 @@ Display an ASCII dashboard of the cognitive system state.
 - Sort: priority first, then by recent activity
 - If a pattern is detected (burst, silence >7d on priority, dispersion), show an alert line
 - **Agents:** check current time before marking absent. `⏳` = not yet (before scheduled time), `✓` = OK, `✗` = error or missed
+- **First-day guard:** if no log files exist yet, display `⏳ First day — agents have not run yet` instead of showing all agents as `✗`. This is normal after fresh setup.
 
 ## `/status PROJECT` (project focus)
 
