@@ -138,8 +138,8 @@ These are starting points. Configure them with your paths, your schedule, your r
 
 NoesisGen Light is the free, open source foundation. If you want to go further:
 
-- **NoesisGen** — [live workshop](https://ginoftn.com/workshop) ($49). Learn how to build and calibrate your full system. Includes access to the extended template repo. Optional Substack subscription ($9/month) for ongoing content and updates.
-- **NoesisPro** — [1:1 session(s)](https://ginoftn.com/pro) ($199–899). From guided installation to full architecture — built with you, calibrated to your cognitive profile. Substack Founder subscription included with Architect ($499) and Full Build ($899) tiers.
+- **[When AI Gets You](https://whenaigetsyou.substack.com)** — the NoesisGen community on Substack. Free articles on building your system + paid tiers for deeper guides and workshops. The full NoesisGen template will be part of the paid tier.
+- **NoesisPro** — [1:1 sessions](https://ginoftn.com/noesisgen) ($199–899). Built with you, calibrated to your cognitive profile.
 
 Both tiers are about expertise, not code. The code is the support — the value is in the calibration.
 
