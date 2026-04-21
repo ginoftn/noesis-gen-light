@@ -134,6 +134,10 @@ NoesisGen Light includes four LaunchAgent templates you can configure to let you
 
 These are starting points. Configure them with your paths, your schedule, your rhythm.
 
+## What's your creative archetype?
+
+Take the [creative profile quiz](https://ginoftn.com/quiz) — 16 questions, 8 archetypes, bilingual FR/EN. Discover how you think and create before you build your system.
+
 ## What's next
 
 NoesisGen Light is the free, open source foundation. If you want to go further:
