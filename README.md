@@ -142,8 +142,8 @@ Take the [creative profile quiz](https://ginoftn.com/quiz) — 16 questions, 8 a
 
 NoesisGen Light is the free, open source foundation. If you want to go further:
 
-- **[When AI Gets You](https://whenaigetsyou.substack.com)** — the NoesisGen community on Substack. Free articles on building your system + paid tiers for deeper guides and workshops. The full NoesisGen template will be part of the paid tier.
-- **NoesisPro** — [1:1 sessions](https://ginoftn.com/noesisgen) ($199–899). Built with you, calibrated to your cognitive profile.
+- **[When AI Gets You](https://whenaigetsyou.substack.com)** — the NoesisGen community on Substack. Free articles on building your system + paid tiers ($19/month or $199/year) for deeper guides. The full NoesisGen template will be part of the paid tier.
+- **NoesisPro** — [1:1 sessions](https://ginoftn.com/noesispro) ($199–899). Built with you, calibrated to your cognitive profile.
 
 Both tiers are about expertise, not code. The code is the support — the value is in the calibration.
 
