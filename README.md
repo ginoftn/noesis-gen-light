@@ -1,5 +1,9 @@
 # NOESISGEN Light
 
+[![npm version](https://img.shields.io/npm/v/get-noesisgen-light.svg)](https://www.npmjs.com/package/get-noesisgen-light)
+[![npm downloads](https://img.shields.io/npm/dm/get-noesisgen-light.svg)](https://www.npmjs.com/package/get-noesisgen-light)
+[![license](https://img.shields.io/npm/l/get-noesisgen-light.svg)](LICENSE)
+
 **Turn your chaos into a universe.**
 
 A personal OS for people who think in parallel. It learns who you are and how you think, not just what you ask.
